@@ -9,8 +9,8 @@ A lightweight Node.js app to receive Mollie webhook events, log the request payl
 - Logs incoming webhook requests (headers, body, timestamp) to a local file (`webhook_logs.txt`)
 - Fetches payment details from Mollie using the `id` field in the webhook payload
 - Built with `express` and `axios`
-- Supports public tunnel via [ngrok](https://ngrok.com/) for external webhook testing
-- View incoming requests in real time via ngrok's local web dashboard
+- Supports public tunneling via [ngrok](https://ngrok.com/)
+- View incoming requests in real time using ngrok's local dashboard
 
 ---
 
@@ -20,7 +20,7 @@ Make sure you have the following installed:
 
 - [Node.js (LTS)](https://nodejs.org)
 - [Git](https://git-scm.com)
-- [ngrok](https://ngrok.com/) (installed via npm or manually)
+- [ngrok](https://ngrok.com/) (can be installed via npm or manually)
 
 ---
 
@@ -28,51 +28,82 @@ Make sure you have the following installed:
 
 ### 1. Clone the Repository
 
+```bash
 git clone https://github.com/asands1/mollie-webhook-logger.git
 cd mollie-webhook-logger
-2. Install Dependencies
+```
 
+### 2. Install Dependencies
+
+```bash
 npm install
-3. Export Your Mollie API Key
+```
 
+### 3. Export Your Mollie API Key
+
+```bash
 export MOLLIE_API_KEY=live_xxxxxxxxxxxxxxxxxxx
-You can use your Mollie test key to avoid real transactions.
+```
 
-▶️ Run the App
+> You can use your **Mollie test key** to avoid triggering real transactions.
 
+---
+
+## ▶️ Run the App
+
+```bash
 node index.js
-You’ll see:
+```
 
+You should see:
 
+```
 🚀 Webhook logger running on http://localhost:3000/webhook
+```
 
-🌐 Open Public Tunnel with ngrok
+---
 
-1. Install ngrok
+## 🌐 Open Public Tunnel with ngrok
 
+### 1. Install ngrok
+
+```bash
 npm install -g ngrok
+```
 
-2. Authenticate ngrok (Only Once)
-Sign up at https://dashboard.ngrok.com/signup, then get your auth token from https://dashboard.ngrok.com/get-started/setup.
+### 2. Authenticate ngrok (only once)
 
-Paste the command they give you into your terminal:
+Sign up at:  
+👉 https://dashboard.ngrok.com/signup
 
+Then copy your auth token from:  
+👉 https://dashboard.ngrok.com/get-started/setup
+
+Paste it into your terminal:
+
+```bash
 ngrok config add-authtoken YOUR_AUTH_TOKEN
+```
 
-3. Start the Tunnel
+### 3. Start the Tunnel
 
+```bash
 ngrok http 3000
+```
 
-You’ll see:
+You'll see:
 
-nginx
-
+```
 Forwarding    https://abcd1234.ngrok-free.app -> http://localhost:3000
+```
 
-Copy the HTTPS forwarding URL and use it as the webhookUrl when creating Mollie payments.
+Copy that `https://...` URL — you’ll use it in Mollie’s webhook config.
 
-🔁 Create a Test Mollie Payment
+---
 
+## 🔁 Create a Test Mollie Payment
+
+```bash
 curl -X POST https://api.mollie.com/v2/payments \
   -H "Authorization: Bearer test_xxxxxxxxxxxxx" \
   -H "Content-Type: application/json" \
@@ -85,26 +116,53 @@ curl -X POST https://api.mollie.com/v2/payments \
     "redirectUrl": "https://example.org/thank-you",
     "webhookUrl": "https://abcd1234.ngrok-free.app/webhook"
   }'
+```
+
 🔄 Replace:
-Authorization with your Mollie test API key
+- `Authorization` with your **test** Mollie API key
+- `webhookUrl` with your **ngrok HTTPS URL**
 
-webhookUrl with your ngrok forwarding URL
+---
 
-🕵️ Inspect Webhook Traffic in Real Time
-While ngrok is running, open:
+## 🕵️ Inspect Webhook Traffic in Real Time
 
+While ngrok is running, open your browser to:
 
+```
 http://127.0.0.1:4040
+```
+
 Here you can:
 
-View all incoming webhook calls
+- View all incoming webhook calls
+- Inspect full request headers and body
+- Replay webhooks for debugging
 
-Inspect full headers and body
+---
 
-Replay requests to debug issues
+## ⚠️ Keep the ngrok Terminal Open!
 
-⚠️ Keep the ngrok Terminal Open!
-Don’t close the terminal running ngrok http 3000.
-This tunnel stays active only while that terminal is open. If you close it, Mollie can’t reach your local server.
+> Don’t close the terminal window running `ngrok http 3000`.  
+> Once it closes, the tunnel shuts down and Mollie can no longer reach your webhook.
 
+---
 
+## 📄 Example Log Entry
+
+```txt
+[2025-07-17T14:22:33.123Z] --- Webhook received at 2025-07-17T14:22:33.123Z ---
+Headers: {
+  "host": "localhost:3000",
+  ...
+}
+Body: {
+  "id": "tr_WDqYK6vllg"
+}
+Mollie Payment Details for tr_WDqYK6vllg:
+{
+  "resource": "payment",
+  "id": "tr_WDqYK6vllg",
+  "amount": { "value": "10.00", "currency": "EUR" },
+  ...
+}
+```
