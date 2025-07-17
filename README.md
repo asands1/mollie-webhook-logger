@@ -103,6 +103,11 @@ Copy that `https://...` URL — you’ll use it in Mollie’s webhook config.
 
 ## 🔁 Create a Test Mollie Payment
 
+Please be aware, Mollie API is forever changing! Check here for how to create a payment:
+https://docs.mollie.com/reference/create-payment
+
+Example:
+
 ```bash
 curl -X POST https://api.mollie.com/v2/payments \
   -H "Authorization: Bearer test_xxxxxxxxxxxxx" \
