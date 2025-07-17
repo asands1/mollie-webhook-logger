@@ -45,24 +45,30 @@ You’ll see:
 
 
 🚀 Webhook logger running on http://localhost:3000/webhook
+
 🌐 Open Public Tunnel with ngrok
+
 1. Install ngrok
 
 npm install -g ngrok
+
 2. Authenticate ngrok (Only Once)
 Sign up at https://dashboard.ngrok.com/signup, then get your auth token from https://dashboard.ngrok.com/get-started/setup.
 
 Paste the command they give you into your terminal:
 
 ngrok config add-authtoken YOUR_AUTH_TOKEN
+
 3. Start the Tunnel
 
 ngrok http 3000
+
 You’ll see:
 
 nginx
 
 Forwarding    https://abcd1234.ngrok-free.app -> http://localhost:3000
+
 Copy the HTTPS forwarding URL and use it as the webhookUrl when creating Mollie payments.
 
 🔁 Create a Test Mollie Payment
@@ -87,7 +93,6 @@ webhookUrl with your ngrok forwarding URL
 🕵️ Inspect Webhook Traffic in Real Time
 While ngrok is running, open:
 
-cpp
 
 http://127.0.0.1:4040
 Here you can:
