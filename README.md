@@ -161,12 +161,12 @@ Headers: {
   ...
 }
 Body: {
-  "id": "tr_WDqYK6vllg"
+  "id": "tr_XXX"
 }
-Mollie Payment Details for tr_WDqYK6vllg:
+Mollie Payment Details for tr_XXXX:
 {
   "resource": "payment",
-  "id": "tr_WDqYK6vllg",
+  "id": "tr_XXXXX",
   "amount": { "value": "10.00", "currency": "EUR" },
   ...
 }
