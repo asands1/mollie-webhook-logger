@@ -61,6 +61,7 @@ You should see:
 🚀 Webhook logger running on http://localhost:3000/webhook
 ```
 
+! I recommend keeping this tunnel open and starting a new terminal with cmd+n (mac OS)!
 ---
 
 ## 🌐 Open Public Tunnel with ngrok
