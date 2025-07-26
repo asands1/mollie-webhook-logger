@@ -71,6 +71,8 @@ You should see:
 npm install -g ngrok
 ```
 
+! I recommend starting a new terminal here (cmd +n) so that you can keep your tunnel open. !
+
 ### 2. Authenticate ngrok (only once)
 
 Sign up at:  
